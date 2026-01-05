@@ -6,71 +6,330 @@ import math
 st.set_page_config(page_title="Sistema de Gestión Financiera", layout="wide")
 
 # --- ESTILOS CSS CORPORATIVOS ---
+# --- ESTILOS CSS MEJORADOS ---
 st.markdown("""
     <style>
-    .main { background-color: #f4f6f9; }
-    h1, h2, h3 { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #2c3e50; }
-    h1 { font-size: 2.2rem; border-bottom: 2px solid #2c3e50; padding-bottom: 15px; }
+    /* Importar fuente moderna */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
-    .metric-card {
-        background-color: #ffffff;
-        border: 1px solid #dcdcdc;
-        border-left: 5px solid #2c3e50;
-        padding: 20px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        text-align: center;
+    /* Configuración global */
+    .main { 
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+    
+    /* Títulos principales */
+    h1 { 
+        font-family: 'Inter', sans-serif;
+        color: #1a202c;
+        font-size: 2.5rem;
+        font-weight: 700;
+        border-bottom: 3px solid #3b82f6;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    h2 { 
+        font-family: 'Inter', sans-serif;
+        color: #2d3748;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-top: 25px;
         margin-bottom: 15px;
     }
-    .metric-card h3 { color: #2c3e50; font-size: 24px; margin: 0; font-weight: 700; }
-    .metric-card p { color: #7f8c8d; font-size: 13px; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
     
-    .metric-success {
-        border-left: 5px solid #27ae60;
-    }
-    .metric-warning {
-        border-left: 5px solid #f39c12;
-    }
-    .metric-danger {
-        border-left: 5px solid #e74c3c;
+    h3 { 
+        font-family: 'Inter', sans-serif;
+        color: #4a5568;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-top: 20px;
     }
     
+    h4 {
+        font-family: 'Inter', sans-serif;
+        color: #4a5568;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    /* Tarjetas métricas mejoradas */
+    .metric-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.06);
+        text-align: center;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+    }
+    
+    .metric-card h3 { 
+        color: #1a202c;
+        font-size: 28px;
+        margin: 10px 0;
+        font-weight: 700;
+    }
+    
+    .metric-card p { 
+        color: #64748b;
+        font-size: 13px;
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+    }
+    
+    /* Variantes de tarjetas */
+    .metric-success::before {
+        background: linear-gradient(90deg, #10b981, #059669);
+    }
+    
+    .metric-success h3 {
+        color: #059669;
+    }
+    
+    .metric-warning::before {
+        background: linear-gradient(90deg, #f59e0b, #d97706);
+    }
+    
+    .metric-warning h3 {
+        color: #d97706;
+    }
+    
+    .metric-danger::before {
+        background: linear-gradient(90deg, #ef4444, #dc2626);
+    }
+    
+    .metric-danger h3 {
+        color: #dc2626;
+    }
+    
+    /* Botones mejorados */
     .stButton>button {
-        background-color: #34495e;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         color: white;
-        border-radius: 4px;
+        border-radius: 8px;
         border: none;
         height: 3em;
         font-weight: 600;
         width: 100%;
-        transition: 0.3s;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        letter-spacing: 0.5px;
     }
-    .stButton>button:hover { background-color: #2c3e50; }
     
-    .stDataFrame { border: 1px solid #ddd; border-radius: 4px; }
+    .stButton>button:hover { 
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
+        transform: translateY(-2px);
+    }
     
+    .stButton>button:active {
+        transform: translateY(0);
+    }
+    
+    /* DataFrames mejorados */
+    .stDataFrame { 
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+    
+    .stDataFrame [data-testid="stDataFrameResizable"] {
+        border-radius: 12px;
+    }
+    
+    /* Cajas de información mejoradas */
     .info-box {
-        background-color: #e8f4f8;
-        border-left: 4px solid #3498db;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 4px;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-left: 5px solid #3b82f6;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .info-box b {
+        color: #1e40af;
+        font-weight: 600;
     }
     
     .warning-box {
-        background-color: #fef5e7;
-        border-left: 4px solid #f39c12;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 4px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-left: 5px solid #f59e0b;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .warning-box b {
+        color: #d97706;
+        font-weight: 600;
     }
     
     .success-box {
-        background-color: #e8f8f5;
-        border-left: 4px solid #27ae60;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 4px;
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-left: 5px solid #10b981;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .success-box b {
+        color: #059669;
+        font-weight: 600;
+    }
+    
+    /* Sidebar mejorado */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    }
+    
+    [data-testid="stSidebar"] .stRadio label {
+        color: #e2e8f0 !important;
+        font-weight: 500;
+        padding: 12px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    [data-testid="stSidebar"] .stRadio label:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #93c5fd !important;
+    }
+    
+    [data-testid="stSidebar"] h2 {
+        color: #f1f5f9 !important;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+    
+    [data-testid="stSidebar"] .stMarkdown {
+        color: #cbd5e1;
+    }
+    
+    /* Tabs mejorados */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: transparent;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        background-color: white;
+        border-radius: 8px 8px 0 0;
+        color: #64748b;
+        font-weight: 500;
+        border: 1px solid #e2e8f0;
+        border-bottom: none;
+        padding: 0 24px;
+        transition: all 0.2s ease;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: #f8fafc;
+        color: #3b82f6;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        color: #3b82f6 !important;
+        border-color: #3b82f6;
+        font-weight: 600;
+    }
+    
+    /* Inputs mejorados */
+    .stNumberInput input, .stTextInput input {
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        padding: 10px;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.2s ease;
+    }
+    
+    .stNumberInput input:focus, .stTextInput input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Expander mejorado */
+    .streamlit-expanderHeader {
+        background-color: white;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        font-weight: 600;
+        color: #1a202c;
+        padding: 16px;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background-color: #f8fafc;
+        border-color: #3b82f6;
+    }
+    
+    /* Radio buttons mejorados */
+    .stRadio > label {
+        font-weight: 600;
+        color: #1a202c;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    /* Animaciones */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .metric-card, .info-box, .warning-box, .success-box {
+        animation: fadeIn 0.5s ease;
+    }
+    
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #3b82f6, #2563eb);
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #2563eb, #1d4ed8);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -82,8 +341,6 @@ st.sidebar.header("Navegación")
 modulo = st.sidebar.radio("Seleccione Módulo:", [
     "Inicio",
     "1. Presupuestos Operativos",
-    "2. Análisis Financiero (Razones)",
-    "3. Evaluación de Inversión"
 ])
 st.sidebar.markdown("---")
 st.sidebar.info("Versión Profesional 3.0 - Completo")
@@ -816,3 +1073,4 @@ elif modulo == "3. Evaluación de Inversión":
     - Índice de Rentabilidad
 
     """)
+
