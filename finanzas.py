@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy_financial as npf
 import math
 
 # --- CONFIGURACIÓN GLOBAL ---
@@ -815,4 +814,5 @@ elif modulo == "3. Evaluación de Inversión":
     - Tasa Interna de Retorno (TIR)
     - Período de Recuperación
     - Índice de Rentabilidad
+
     """)
