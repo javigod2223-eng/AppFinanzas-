@@ -6,415 +6,330 @@ import math
 st.set_page_config(page_title="Sistema de Gestión Financiera", layout="wide")
 
 # --- ESTILOS CSS PREMIUM EQUILIBRADO ---
+# --- ESTILOS CSS MEJORADOS ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    /* Importar fuente moderna */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
-    /* ============ CONFIGURACIÓN GLOBAL ============ */
+    /* Configuración global */
     .main { 
-        background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 50%, #1a1f3a 100%);
-        font-family: 'Poppins', sans-serif;
-        color: #e2e8f0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+        font-family: 'Inter', 'Segoe UI', sans-serif;
     }
     
-    /* ============ TÍTULOS MÁS SUAVES ============ */
+    /* Títulos principales */
     h1 { 
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: 2.8rem;
-        font-weight: 800;
-        text-align: center;
-        padding: 25px 0;
-        margin-bottom: 35px;
-        letter-spacing: 1px;
-    }
-    
-    h1::after {
-        content: '';
-        display: block;
-        margin: 15px auto 0;
-        width: 200px;
-        height: 3px;
-        background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+        font-family: 'Inter', sans-serif;
+        color: #1a202c;
+        font-size: 2.5rem;
+        font-weight: 700;
+        border-bottom: 3px solid #3b82f6;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
     
     h2 { 
-        font-family: 'Poppins', sans-serif;
-        color: #c4b5fd;
+        font-family: 'Inter', sans-serif;
+        color: #2d3748;
         font-size: 1.8rem;
-        font-weight: 700;
-        margin: 25px 0 20px 0;
+        font-weight: 600;
+        margin-top: 25px;
+        margin-bottom: 15px;
     }
     
     h3 { 
-        font-family: 'Poppins', sans-serif;
-        color: #ddd6fe;
-        font-size: 1.4rem;
+        font-family: 'Inter', sans-serif;
+        color: #4a5568;
+        font-size: 1.3rem;
         font-weight: 600;
-        margin: 20px 0 15px 0;
+        margin-top: 20px;
     }
     
     h4 {
-        font-family: 'Poppins', sans-serif;
-        color: #c4b5fd;
-        font-size: 1.15rem;
+        font-family: 'Inter', sans-serif;
+        color: #4a5568;
+        font-size: 1.1rem;
         font-weight: 600;
     }
     
-    /* ============ TARJETAS SUAVES ============ */
+    /* Tarjetas métricas mejoradas */
     .metric-card {
-        background: linear-gradient(145deg, #2d2550 0%, #3d2f5f 100%);
-        border: 2px solid #5b4b7e;
-        border-radius: 16px;
-        padding: 28px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.06);
         text-align: center;
         margin-bottom: 20px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
     }
     
     .metric-card:hover {
         transform: translateY(-5px);
-        border-color: #8b7bb8;
-        box-shadow: 0 8px 25px rgba(139, 123, 184, 0.3);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
     }
     
     .metric-card h3 { 
-        color: #f3f4f6;
-        font-size: 32px;
-        margin: 12px 0;
+        color: #1a202c;
+        font-size: 28px;
+        margin: 10px 0;
         font-weight: 700;
     }
     
     .metric-card p { 
-        color: #cbd5e1;
-        font-size: 11px;
+        color: #64748b;
+        font-size: 13px;
         margin-top: 8px;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         font-weight: 500;
     }
     
-    /* ============ VARIANTES DE COLOR ============ */
-    .metric-success {
-        background: linear-gradient(145deg, #1e4d3b 0%, #2d6d54 100%);
-        border-color: #34d399;
-    }
-    
-    .metric-success:hover {
-        border-color: #6ee7b7;
-        box-shadow: 0 8px 25px rgba(52, 211, 153, 0.3);
+    /* Variantes de tarjetas */
+    .metric-success::before {
+        background: linear-gradient(90deg, #10b981, #059669);
     }
     
     .metric-success h3 {
-        color: #6ee7b7;
+        color: #059669;
     }
     
-    .metric-warning {
-        background: linear-gradient(145deg, #4d3d1e 0%, #6d5a2d 100%);
-        border-color: #fbbf24;
-    }
-    
-    .metric-warning:hover {
-        border-color: #fcd34d;
-        box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
+    .metric-warning::before {
+        background: linear-gradient(90deg, #f59e0b, #d97706);
     }
     
     .metric-warning h3 {
-        color: #fcd34d;
+        color: #d97706;
     }
     
-    .metric-danger {
-        background: linear-gradient(145deg, #4d1e1e 0%, #6d2d2d 100%);
-        border-color: #f87171;
-    }
-    
-    .metric-danger:hover {
-        border-color: #fca5a5;
-        box-shadow: 0 8px 25px rgba(248, 113, 113, 0.3);
+    .metric-danger::before {
+        background: linear-gradient(90deg, #ef4444, #dc2626);
     }
     
     .metric-danger h3 {
-        color: #fca5a5;
+        color: #dc2626;
     }
     
-    /* ============ BOTONES ELEGANTES ============ */
+    /* Botones mejorados */
     .stButton>button {
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-        color: #ffffff;
-        border-radius: 12px;
-        border: 2px solid #a78bfa;
-        height: 3.2em;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: white;
+        border-radius: 8px;
+        border: none;
+        height: 3em;
         font-weight: 600;
         width: 100%;
         transition: all 0.3s ease;
-        font-family: 'Poppins', sans-serif;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        font-family: 'Inter', sans-serif;
         font-size: 15px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        letter-spacing: 0.5px;
     }
     
     .stButton>button:hover { 
-        background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-        border-color: #c4b5fd;
     }
     
-    /* ============ DATAFRAMES MEJORADOS ============ */
+    .stButton>button:active {
+        transform: translateY(0);
+    }
+    
+    /* DataFrames mejorados */
     .stDataFrame { 
-        border: 2px solid #5b4b7e;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         overflow: hidden;
-        background: #2d2550;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
     
-    /* ============ CAJAS DE INFORMACIÓN ============ */
+    .stDataFrame [data-testid="stDataFrameResizable"] {
+        border-radius: 12px;
+    }
+    
+    /* Cajas de información mejoradas */
     .info-box {
-        background: linear-gradient(145deg, #1e3a5f 0%, #2d4a6f 100%);
-        border-left: 4px solid #60a5fa;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-left: 5px solid #3b82f6;
         padding: 20px;
         margin: 15px 0;
-        color: #e0f2fe;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+        font-family: 'Inter', sans-serif;
     }
     
     .info-box b {
-        color: #93c5fd;
+        color: #1e40af;
         font-weight: 600;
     }
     
     .warning-box {
-        background: linear-gradient(145deg, #4d3d1e 0%, #6d5a2d 100%);
-        border-left: 4px solid #fbbf24;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-left: 5px solid #f59e0b;
         padding: 20px;
         margin: 15px 0;
-        color: #fef3c7;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1);
+        font-family: 'Inter', sans-serif;
     }
     
     .warning-box b {
-        color: #fcd34d;
+        color: #d97706;
         font-weight: 600;
     }
     
     .success-box {
-        background: linear-gradient(145deg, #1e4d3b 0%, #2d6d54 100%);
-        border-left: 4px solid #34d399;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-left: 5px solid #10b981;
         padding: 20px;
         margin: 15px 0;
-        color: #d1fae5;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+        font-family: 'Inter', sans-serif;
     }
     
     .success-box b {
-        color: #6ee7b7;
+        color: #059669;
         font-weight: 600;
     }
     
-    /* ============ SIDEBAR OSCURO ============ */
+    /* Sidebar mejorado */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a1534 0%, #0f0a1f 100%);
-        border-right: 1px solid #3d2f5f;
+        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     }
     
     [data-testid="stSidebar"] .stRadio label {
-        color: #cbd5e1 !important;
+        color: #e2e8f0 !important;
         font-weight: 500;
-        padding: 14px 18px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        margin: 4px 0;
-        border: 1px solid transparent;
+        padding: 12px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
     }
     
     [data-testid="stSidebar"] .stRadio label:hover {
-        background: rgba(124, 58, 237, 0.2);
-        border-color: #7c3aed;
-        color: #c4b5fd !important;
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #93c5fd !important;
     }
     
     [data-testid="stSidebar"] h2 {
-        color: #c4b5fd !important;
-        font-weight: 700;
+        color: #f1f5f9 !important;
+        font-weight: 600;
         font-size: 1.2rem;
-        margin-bottom: 15px;
     }
     
     [data-testid="stSidebar"] .stMarkdown {
-        color: #94a3b8;
+        color: #cbd5e1;
     }
     
-    /* ============ TABS MODERNOS ============ */
+    /* Tabs mejorados */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         background-color: transparent;
-        padding: 8px 0;
     }
     
     .stTabs [data-baseweb="tab"] {
         height: 50px;
-        background: #2d2550;
-        border-radius: 10px;
-        color: #94a3b8;
-        font-weight: 600;
-        border: 2px solid #3d2f5f;
+        background-color: white;
+        border-radius: 8px 8px 0 0;
+        color: #64748b;
+        font-weight: 500;
+        border: 1px solid #e2e8f0;
+        border-bottom: none;
         padding: 0 24px;
-        transition: all 0.3s ease;
-        font-family: 'Poppins', sans-serif;
+        transition: all 0.2s ease;
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: #3d2f5f;
-        color: #c4b5fd;
-        border-color: #5b4b7e;
+        background-color: #f8fafc;
+        color: #3b82f6;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-        color: #ffffff !important;
-        border-color: #a78bfa;
-        font-weight: 700;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        color: #3b82f6 !important;
+        border-color: #3b82f6;
+        font-weight: 600;
     }
     
-    /* ============ INPUTS OSCUROS ============ */
+    /* Inputs mejorados */
     .stNumberInput input, .stTextInput input {
-        background: #2d2550 !important;
-        border: 2px solid #5b4b7e !important;
-        border-radius: 10px !important;
-        color: #f3f4f6 !important;
-        padding: 11px !important;
-        font-family: 'Poppins', sans-serif !important;
-        transition: all 0.3s ease !important;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        padding: 10px;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.2s ease;
     }
     
     .stNumberInput input:focus, .stTextInput input:focus {
-        border-color: #a78bfa !important;
-        box-shadow: 0 0 15px rgba(167, 139, 250, 0.3) !important;
-        background: #3d2f5f !important;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
     
-    .stNumberInput label, .stTextInput label {
-        color: #ddd6fe !important;
-        font-weight: 600 !important;
-        font-family: 'Poppins', sans-serif !important;
-        margin-bottom: 8px !important;
-    }
-    
-    /* ============ EXPANDER ============ */
+    /* Expander mejorado */
     .streamlit-expanderHeader {
-        background: #2d2550;
-        border-radius: 10px;
-        border: 2px solid #5b4b7e;
+        background-color: white;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
         font-weight: 600;
-        color: #ddd6fe;
-        padding: 18px;
-        font-family: 'Poppins', sans-serif;
-        transition: all 0.3s ease;
+        color: #1a202c;
+        padding: 16px;
+        font-family: 'Inter', sans-serif;
     }
     
     .streamlit-expanderHeader:hover {
-        background: #3d2f5f;
-        border-color: #8b7bb8;
+        background-color: #f8fafc;
+        border-color: #3b82f6;
     }
     
-    /* ============ ANIMACIONES ============ */
-    @keyframes fadeInUp {
-        from { 
-            opacity: 0; 
-            transform: translateY(20px);
-        }
-        to { 
-            opacity: 1; 
-            transform: translateY(0);
-        }
+    /* Radio buttons mejorados */
+    .stRadio > label {
+        font-weight: 600;
+        color: #1a202c;
+        font-family: 'Inter', sans-serif;
     }
     
-    .metric-card {
-        animation: fadeInUp 0.5s ease backwards;
+    /* Animaciones */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
-    .metric-card:nth-child(1) { animation-delay: 0.1s; }
-    .metric-card:nth-child(2) { animation-delay: 0.2s; }
-    .metric-card:nth-child(3) { animation-delay: 0.3s; }
-    .metric-card:nth-child(4) { animation-delay: 0.4s; }
+    .metric-card, .info-box, .warning-box, .success-box {
+        animation: fadeIn 0.5s ease;
+    }
     
-    /* ============ SCROLLBAR ============ */
+    /* Scrollbar personalizada */
     ::-webkit-scrollbar {
         width: 10px;
         height: 10px;
     }
     
     ::-webkit-scrollbar-track {
-        background: #1a1534;
-        border-radius: 10px;
+        background: #f1f5f9;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #7c3aed, #a855f7);
-        border-radius: 10px;
+        background: linear-gradient(180deg, #3b82f6, #2563eb);
+        border-radius: 5px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #a855f7, #c084fc);
-    }
-    
-    /* ============ TEXTO GENERAL ============ */
-    p, span, div, label {
-        color: #cbd5e1;
-    }
-    
-    /* ============ RADIO BUTTONS ============ */
-    .stRadio > label {
-        color: #ddd6fe !important;
-        font-weight: 600;
-    }
-    
-    /* ============ MÉTRICAS NATIVAS ============ */
-    [data-testid="stMetric"] {
-        background: #2d2550;
-        padding: 18px;
-        border-radius: 12px;
-        border: 2px solid #5b4b7e;
-    }
-    
-    [data-testid="stMetricLabel"] {
-        color: #cbd5e1 !important;
-        font-weight: 600 !important;
-    }
-    
-    [data-testid="stMetricValue"] {
-        color: #f3f4f6 !important;
-        font-weight: 700 !important;
-    }
-    
-    /* ============ AJUSTE DE CONTRASTE ============ */
-    .stMarkdown {
-        color: #cbd5e1;
-    }
-    
-    /* Botones de descarga */
-    .stDownloadButton>button {
-        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-        color: white;
-        border: 2px solid #6ee7b7;
-        border-radius: 12px;
-        font-weight: 600;
-        padding: 12px 24px;
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    .stDownloadButton>button:hover {
-        background: linear-gradient(135deg, #34d399 0%, #6ee7b7 100%);
-        transform: translateY(-2px);
+        background: linear-gradient(180deg, #2563eb, #1d4ed8);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -1156,6 +1071,7 @@ elif modulo == "3. Evaluación de Inversión":
     - Índice de Rentabilidad
 
     """)
+
 
 
 
